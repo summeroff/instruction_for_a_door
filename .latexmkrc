@@ -1,0 +1,4 @@
+# .latexmkrc
+$pdf_mode = 1;                 # pdflatex
+$pdflatex = 'pdflatex -interaction=nonstopmode -halt-on-error %O %S';
+$max_repeat = 5;

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>$title$</title>
+  <meta name="author" content="$author-meta$">
+  <meta name="description" content="$subtitle$">
+  <style>
+    :root {
+      --bg: #f3efe6;
+      --bg-raise: #faf7f1;
+      --ink: #1c1917;
+      --muted: #57534e;
+      --rule: #d9d2c5;
+      --accent: #9a3412;
+      --stamp: #44403c;
+      --sans: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+      --mono: "Cascadia Mono", "Cascadia Code", "Segoe UI Mono", Consolas, "Liberation Mono", ui-monospace, monospace;
+      color-scheme: light;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #141210;
+        --bg-raise: #1c1916;
+        --ink: #f4efe6;
+        --muted: #a8a29e;
+        --rule: #3c362e;
+        --accent: #e7b8a2;
+        --stamp: #e7e5e4;
+        color-scheme: dark;
+      }
+    }
+    :root[data-theme="dark"] {
+      --bg: #141210;
+      --bg-raise: #1c1916;
+      --ink: #f4efe6;
+      --muted: #a8a29e;
+      --rule: #3c362e;
+      --accent: #e7b8a2;
+      --stamp: #e7e5e4;
+      color-scheme: dark;
+    }
+    :root[data-theme="light"] {
+      color-scheme: light;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--serif);
+      font-size: 1.125rem;
+      line-height: 1.58;
+      text-rendering: optimizeLegibility;
+    }
+    .wrap {
+      width: min(40rem, calc(100% - 2.4rem));
+      margin: 0 auto;
+      padding: 2.6rem 0 5rem;
+    }
+    .theme-toggle {
+      position: fixed;
+      top: 0.85rem;
+      right: 0.85rem;
+      z-index: 2;
+      border: 1px solid var(--rule);
+      background: var(--bg-raise);
+      color: var(--muted);
+      font-family: var(--sans);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.4rem 0.65rem;
+      cursor: pointer;
+    }
+    .theme-toggle:hover,
+    .theme-toggle:focus-visible {
+      color: var(--ink);
+      border-color: var(--accent);
+      outline: none;
+    }
+    .cover {
+      padding-bottom: 1.8rem;
+      margin-bottom: 1.6rem;
+      border-bottom: 1px solid var(--rule);
+    }
+    .kicker {
+      margin: 0;
+      font-family: var(--sans);
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .cover-title {
+      margin: 0.55rem 0 0.85rem;
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: clamp(3.1rem, 12vw, 5.4rem);
+      line-height: 0.88;
+      letter-spacing: 0.045em;
+    }
+    .subtitle {
+      max-width: 28rem;
+      margin: 0;
+      font-size: 1.2rem;
+      line-height: 1.35;
+    }
+    .byline,
+    .when {
+      margin: 0.35rem 0 0;
+      font-family: var(--sans);
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+    .when { margin-top: 0.15rem; }
+    #TOC {
+      margin: 0 0 2.4rem;
+      padding-top: 0.2rem;
+    }
+    #TOC > h2 {
+      margin: 0 0 0.7rem;
+      font-family: var(--sans);
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--muted);
+    }
+    #TOC ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    #TOC > ul > li {
+      margin: 0.85rem 0 0.2rem;
+    }
+    #TOC > ul > li > a {
+      font-family: var(--sans);
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+    #TOC ul ul {
+      margin: 0.35rem 0 0.2rem;
+      columns: 2;
+      column-gap: 1.4rem;
+    }
+    #TOC ul ul li {
+      break-inside: avoid;
+      margin: 0.12rem 0;
+    }
+    #TOC ul ul a {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.01em;
+      line-height: 1.45;
+    }
+    #TOC a {
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+    }
+    #TOC a:hover,
+    #TOC a:focus-visible {
+      border-bottom-color: var(--accent);
+      outline: none;
+    }
+    main h1 {
+      margin: 3.4rem 0 0.15rem;
+      padding-top: 1.15rem;
+      border-top: 1px solid var(--rule);
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    main h1:first-child {
+      margin-top: 0.4rem;
+    }
+    main h2 {
+      margin: 2.15rem 0 0.65rem;
+      font-family: var(--mono);
+      font-size: 0.74rem;
+      font-weight: 560;
+      letter-spacing: 0.035em;
+      line-height: 1.35;
+      color: var(--stamp);
+    }
+    main h2::before {
+      content: "";
+      display: block;
+      width: 1.35rem;
+      height: 1px;
+      margin-bottom: 0.38rem;
+      background: var(--accent);
+    }
+    main p {
+      margin: 0 0 0.85em;
+      hyphens: auto;
+      text-wrap: pretty;
+    }
+    main a {
+      color: inherit;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.16em;
+    }
+    .colophon {
+      margin-top: 3.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--rule);
+      font-family: var(--sans);
+      font-size: 0.82rem;
+      line-height: 1.45;
+      color: var(--muted);
+    }
+    ::selection {
+      background: #fdba74;
+      color: #1c1917;
+    }
+    @media (max-width: 680px) {
+      body { font-size: 1.05rem; }
+      .wrap { width: min(40rem, calc(100% - 1.5rem)); }
+      #TOC ul ul { columns: 1; }
+    }
+    @media print {
+      .theme-toggle { display: none; }
+      body {
+        background: #fff;
+        color: #111;
+        font-size: 11pt;
+      }
+      .wrap { width: auto; padding: 0; }
+      main h1, main h2 { break-after: avoid; }
+      a { text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <button class="theme-toggle" id="theme" type="button">Night</button>
+  <div class="wrap">
+    <header class="cover">
+      <p class="kicker">private diary</p>
+      <p class="cover-title">$title$</p>
+      $if(subtitle)$
+      <p class="subtitle">$subtitle$</p>
+      $endif$
+      $if(author)$
+      <p class="byline">$for(author)$$author$$sep$, $endfor$</p>
+      $endif$
+      $if(date)$
+      <p class="when">$date$</p>
+      $endif$
+    </header>
+    $if(toc)$
+    <nav id="$idprefix$TOC" role="doc-toc">
+      $if(toc-title)$
+      <h2 id="$idprefix$toc-title">$toc-title$</h2>
+      $else$
+      <h2>Contents</h2>
+      $endif$
+      $table-of-contents$
+    </nav>
+    $endif$
+    <main>
+$body$
+    </main>
+    <footer class="colophon">
+      <p>Fiction. $if(author)$$for(author)$$author$$sep$, $endfor$. $endif$$if(date)$$date$.$endif$</p>
+    </footer>
+  </div>
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var btn = document.getElementById("theme");
+      var key = "nomeal-theme";
+      function systemDark() {
+        return window.matchMedia("(prefers-color-scheme: dark)").matches;
+      }
+      function current() {
+        var set = root.getAttribute("data-theme");
+        if (set === "dark" || set === "light") return set;
+        return systemDark() ? "dark" : "light";
+      }
+      function paint() {
+        var mode = current();
+        btn.textContent = mode === "dark" ? "Day" : "Night";
+        btn.setAttribute("aria-pressed", mode === "dark" ? "true" : "false");
+      }
+      var saved = null;
+      try { saved = localStorage.getItem(key); } catch (e) {}
+      if (saved === "dark" || saved === "light") root.setAttribute("data-theme", saved);
+      btn.addEventListener("click", function () {
+        var next = current() === "dark" ? "light" : "dark";
+        root.setAttribute("data-theme", next);
+        try { localStorage.setItem(key, next); } catch (e) {}
+        paint();
+      });
+      paint();
+    })();
+  </script>
+</body>
+</html>

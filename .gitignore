@@ -1,0 +1,11 @@
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.toc
+*.pdf
+*.synctex.gz
+*.xdv
+build/
+book_instruction_for_a_door*.html
